@@ -1,0 +1,443 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybersecurity Labs Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(45deg, #0a0a0a, #1a1a2e, #16213e);
+            color: #00ff41;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Loader Animation */
+        .loader-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            flex-direction: column;
+        }
+
+        .cyber-loader {
+            width: 120px;
+            height: 120px;
+            border: 3px solid #333;
+            border-top: 3px solid #00ff41;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            position: relative;
+        }
+
+        .cyber-loader::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 2px solid #333;
+            border-top: 2px solid #ff6b35;
+            border-radius: 50%;
+            animation: spin 1.5s linear infinite reverse;
+        }
+
+        .loader-text {
+            margin-top: 30px;
+            font-size: 1.2em;
+            text-align: center;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .glitch {
+            animation: glitch 2s infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes glitch {
+            0%, 100% { text-shadow: 0 0 5px #00ff41; }
+            25% { text-shadow: -2px 0 #ff6b35, 2px 0 #00ff41; }
+            50% { text-shadow: 2px 0 #ff6b35, -2px 0 #00ff41; }
+            75% { text-shadow: 0 0 10px #00ff41, 0 0 20px #00ff41; }
+        }
+
+        /* Main Content */
+        .main-content {
+            display: none;
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.3);
+            border: 1px solid #00ff41;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px #00ff41;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        .student-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .info-card {
+            background: rgba(0, 255, 65, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #00ff41;
+            text-align: center;
+        }
+
+        .info-card strong {
+            color: #ff6b35;
+            font-size: 1.1em;
+        }
+
+        .lab-section {
+            margin: 40px 0;
+            background: rgba(22, 33, 62, 0.8);
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 5px solid #00ff41;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .lab-title {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #ff6b35;
+            text-shadow: 0 0 15px #ff6b35;
+        }
+
+        .lab-content h3 {
+            color: #00ff41;
+            margin: 25px 0 15px;
+            font-size: 1.5em;
+            border-bottom: 2px solid #00ff41;
+            padding-bottom: 5px;
+        }
+
+        .lab-content p {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .command-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .command-table th,
+        .command-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+
+        .command-table th {
+            background: #00ff41;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .command-table tr:hover {
+            background: rgba(0, 255, 65, 0.1);
+        }
+
+        .code-block {
+            background: #000;
+            border: 1px solid #00ff41;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            color: #00ff41;
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
+        }
+
+        .highlight {
+            color: #ff6b35;
+            font-weight: bold;
+        }
+
+        .cyber-effect {
+            animation: cyber-glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes cyber-glow {
+            from { box-shadow: 0 0 5px #00ff41; }
+            to { box-shadow: 0 0 20px #00ff41, 0 0 30px #00ff41; }
+        }
+
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00ff41, transparent);
+            margin: 40px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loader Animation -->
+    <div class="loader-container" id="loader">
+        <div class="cyber-loader"></div>
+        <div class="loader-text">
+            <div class="glitch">INITIALIZING CYBER SYSTEMS...</div>
+            <div style="margin-top: 10px; font-size: 0.9em;">Loading Documentation...</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="container">
+            <!-- Header Section -->
+            <div class="header">
+                <h1>CYBERSECURITY LABS DOCUMENTATION</h1>
+                <div class="student-info">
+                    <div class="info-card">
+                        <strong>Name:</strong><br>
+                        Omopariola Timileyin Emmanuel
+                    </div>
+                    <div class="info-card">
+                        <strong>Student-Id:</strong><br>
+                        *******
+                    </div>
+                    <div class="info-card">
+                        <strong>Department:</strong><br>
+                        Cybersecurity
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lab 1: Ubuntu Installation -->
+            <div class="lab-section cyber-effect">
+                <h2 class="lab-title">LAB 1: Ubuntu Installation Documentation</h2>
+                <div class="lab-content">
+                    <h3>Ubuntu Installation Using VMware</h3>
+                    <p>I began my Ubuntu installation journey by setting up a virtual environment using VMware Workstation. First, I downloaded the Ubuntu 22.04 LTS ISO file from the official Ubuntu website, ensuring I had the latest stable version for optimal security and performance.</p>
+                    
+                    <p>I launched VMware Workstation and created a new virtual machine by selecting "Create a New Virtual Machine" from the home screen. I chose the "Custom (advanced)" option to have full control over the configuration settings. During the setup wizard, I allocated 4GB of RAM and 25GB of disk space to ensure smooth operation of the Ubuntu system.</p>
+                    
+                    <p>I configured the virtual machine settings by specifying the downloaded Ubuntu ISO file as the installation media. I enabled virtualization features like VT-x/AMD-V to improve performance. After completing the initial setup, I powered on the virtual machine and was greeted with the Ubuntu installation screen.</p>
+                    
+                    <p>I selected "Install Ubuntu" and proceeded through the installation wizard. I chose the default keyboard layout and connected to my network for updates during installation. For the installation type, I selected "Erase disk and install Ubuntu" since this was a virtual environment with no existing data to preserve.</p>
+                    
+                    <p>I created my user account with a strong password and enabled automatic login for convenience in the lab environment. The installation process took approximately 20 minutes to complete. After the installation finished, I restarted the virtual machine and successfully booted into my new Ubuntu desktop environment.</p>
+
+                    <div class="section-divider"></div>
+
+                    <h3>Ubuntu Installation on Windows 11</h3>
+                    <p>For the Windows 11 dual-boot installation, I first ensured my system met the requirements and had secure boot enabled. I began by creating a backup of my important Windows files and created a recovery drive using Windows built-in tools.</p>
+                    
+                    <p>I downloaded the Ubuntu 22.04 LTS ISO and created a bootable USB drive using Rufus. I configured Rufus to use GPT partition scheme for UEFI systems and selected the Ubuntu ISO file. The process took about 10 minutes to create the bootable media.</p>
+                    
+                    <p>I accessed my Windows 11 disk management tool and shrunk my main partition to create unallocated space for Ubuntu. I allocated 50GB of free space, which I determined would be sufficient for the Ubuntu installation and my lab exercises.</p>
+                    
+                    <p>I restarted my computer and accessed the BIOS/UEFI settings by pressing F2 during startup. I temporarily disabled secure boot and enabled legacy boot options to ensure compatibility with the Ubuntu installer. I changed the boot priority to boot from the USB drive first.</p>
+                    
+                    <p>Upon booting from the USB drive, I selected "Try Ubuntu" to test the system before installation. After verifying everything worked correctly, I launched the installer from the desktop. I chose "Install Ubuntu alongside Windows Boot Manager" to maintain dual-boot capability.</p>
+                    
+                    <p>The installer automatically detected my Windows installation and offered to install Ubuntu in the free space I had created. I proceeded with the automatic partitioning and completed the user account setup. After installation, I restarted and was presented with the GRUB bootloader, allowing me to choose between Windows 11 and Ubuntu at startup.</p>
+                </div>
+            </div>
+
+            <!-- Lab 2: System Diagnostics Commands -->
+            <div class="lab-section cyber-effect">
+                <h2 class="lab-title">LAB 2: System Diagnostics Commands</h2>
+                <div class="lab-content">
+                    <h3>Hardware Diagnostics Tools</h3>
+                    <p>During my exploration of hardware diagnostic tools, I discovered the power of command-line utilities for system analysis. When I ran the <span class="highlight">lshw</span> command, it provided me with comprehensive information about every hardware component in my system, from the motherboard to individual memory modules.</p>
+                    
+                    <div class="code-block">
+                        $ sudo lshw
+                        *-core
+                          description: Motherboard
+                          product: System Product Name
+                          vendor: ASUSTeK COMPUTER INC.
+                    </div>
+                    
+                    <table class="command-table">
+                        <thead>
+                            <tr>
+                                <th>Tool</th>
+                                <th>My Experience & Results</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>lshw</strong></td>
+                                <td>When I executed this command, it revealed detailed hardware information including my CPU model, RAM configuration, and storage devices. I found it particularly useful for inventory management.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>lscpu</strong></td>
+                                <td>This command showed me my processor specifications including core count, thread count, and CPU frequency. I learned my system has 8 cores with hyperthreading enabled.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>lsblk</strong></td>
+                                <td>I used this to view my storage device hierarchy. It clearly displayed my SSD partitions and mount points, helping me understand my disk layout.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>lspci & lsusb</strong></td>
+                                <td>These commands helped me identify all PCI and USB devices. I discovered some unknown devices and was able to find appropriate drivers.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>dmidecode</strong></td>
+                                <td>Running this provided me with BIOS and hardware information directly from DMI tables. I found serial numbers and manufacturer details for components.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>System Performance & Resource Monitoring</h3>
+                    <p>I extensively used performance monitoring tools to understand my system's resource utilization. The <span class="highlight">htop</span> command became my go-to tool for real-time process monitoring, providing me with a colorful, interactive interface to track CPU, memory, and process information.</p>
+                    
+                    <p>When I ran <span class="highlight">vmstat 1</span>, it gave me continuous updates about memory usage, CPU activity, and I/O statistics. I observed how different applications affected system performance and identified resource-intensive processes that were impacting system responsiveness.</p>
+
+                    <h3>Network Diagnostics Experience</h3>
+                    <p>My network diagnostic journey began with simple <span class="highlight">ping</span> commands to test connectivity. I pinged google.com and observed consistent response times around 20ms, indicating good network performance. When I used <span class="highlight">traceroute</span>, I could see the complete path my packets took to reach their destination, including all intermediate routers.</p>
+                    
+                    <p>The <span class="highlight">netstat -tuln</span> command revealed all listening ports on my system, which was crucial for security assessment. I discovered several services running that I wasn't aware of and was able to secure my system by disabling unnecessary services.</p>
+
+                    <h3>Log Analysis Results</h3>
+                    <p>I spent considerable time analyzing system logs using <span class="highlight">journalctl</span>. This powerful tool allowed me to filter logs by service, time period, and severity level. I investigated boot issues by running <span class="highlight">journalctl -b</span> to see logs from the current boot session.</p>
+                    
+                    <p>The <span class="highlight">dmesg</span> command provided me with kernel ring buffer messages, which were invaluable when troubleshooting hardware issues. I could see exactly when devices were detected during boot and identify any error messages.</p>
+                </div>
+            </div>
+
+            <!-- Lab 3: Concurrency Testing -->
+            <div class="lab-section cyber-effect">
+                <h2 class="lab-title">LAB 3: Testing Concurrency in Computing Systems</h2>
+                <div class="lab-content">
+                    <h3>Understanding Concurrency in Practice</h3>
+                    <p>In my exploration of concurrency testing, I focused on understanding how modern computer systems handle multiple tasks simultaneously. Concurrency is the foundation of multitasking operating systems, allowing me to run multiple applications while maintaining system responsiveness.</p>
+                    
+                    <p>I began my testing by creating multiple concurrent processes and observing how the Linux kernel's scheduler managed them. Using the <span class="highlight">stress</span> utility, I generated artificial CPU, memory, and I/O loads to simulate real-world concurrent scenarios.</p>
+
+                    <h3>CPU Concurrency Testing</h3>
+                    <p>I installed the stress testing tool and ran multiple CPU-intensive tasks simultaneously. Using the command <span class="highlight">stress --cpu 8 --timeout 60s</span>, I created 8 worker threads that maxed out my CPU cores. Through htop monitoring, I observed how the system maintained responsiveness despite high CPU utilization.</p>
+                    
+                    <div class="code-block">
+                        # Installing stress testing tools
+                        $ sudo apt install stress stress-ng
+                        
+                        # Running concurrent CPU tests
+                        $ stress --cpu 4 --vm 2 --vm-bytes 1G --timeout 30s
+                    </div>
+                    
+                    <p>I monitored the results using multiple terminal windows running different monitoring tools simultaneously. This practical demonstration of concurrency showed me how I could run htop, vmstat, and iotop all at the same time while the stress test was executing.</p>
+
+                    <h3>Memory Concurrency Challenges</h3>
+                    <p>Memory concurrency presented unique challenges that I explored through practical testing. I created scenarios where multiple processes competed for memory resources using <span class="highlight">stress --vm 4 --vm-bytes 512M</span>. This command spawned 4 processes, each allocating and deallocating 512MB of memory continuously.</p>
+                    
+                    <p>I observed how the Linux kernel's memory management system handled concurrent memory requests. Using the <span class="highlight">free -h</span> command in a watch loop, I monitored real-time memory usage and saw how swap space was utilized when physical memory became scarce.</p>
+
+                    <h3>I/O Concurrency Testing</h3>
+                    <p>File system concurrency testing revealed interesting insights about disk performance under concurrent loads. I used <span class="highlight">stress --io 4</span> to create multiple processes performing continuous read/write operations. Simultaneously, I monitored disk activity using <span class="highlight">iotop</span> and <span class="highlight">iostat</span>.</p>
+                    
+                    <p>I discovered that modern SSDs handle concurrent I/O operations much more efficiently than traditional hard drives. My testing showed consistent performance even with multiple processes accessing the disk simultaneously, demonstrating the effectiveness of modern storage controllers and filesystems.</p>
+
+                    <h3>Network Concurrency Experiments</h3>
+                    <p>To test network concurrency, I set up multiple simultaneous connections using tools like <span class="highlight">wget</span> and <span class="highlight">curl</span>. I downloaded multiple files concurrently and monitored network usage with <span class="highlight">iftop</span> and <span class="highlight">nethogs</span>.</p>
+                    
+                    <p>I observed how the TCP/IP stack managed multiple concurrent connections and how bandwidth was shared among different processes. This testing helped me understand network socket management and connection pooling concepts in practice.</p>
+
+                    <h3>Process Synchronization Observations</h3>
+                    <p>Through my concurrency testing, I gained practical insights into process synchronization mechanisms. I observed how the kernel prevented race conditions and managed shared resources. Using tools like <span class="highlight">ps aux</span> and <span class="highlight">pstree</span>, I could visualize process relationships and understand parent-child process hierarchies.</p>
+                    
+                    <p>I experimented with process priorities using <span class="highlight">nice</span> and <span class="highlight">renice</span> commands, learning how I could influence the scheduler's decision-making process. This hands-on experience demonstrated the importance of proper resource management in concurrent computing environments.</p>
+
+                    <h3>Real-World Concurrency Applications</h3>
+                    <p>My testing concluded with practical applications of concurrency principles. I set up scenarios mimicking real-world server environments where multiple users access services simultaneously. Using simple Python scripts, I created multiple client connections to test how services handle concurrent requests.</p>
+                    
+                    <p>This comprehensive testing approach gave me valuable insights into system behavior under concurrent loads and helped me understand the critical role of concurrency in modern computing systems. The experience reinforced the importance of proper system monitoring and resource management in cybersecurity contexts.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Loader animation control
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+            }, 3000); // 3 second loader
+        });
+
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add hover effects to command table rows
+            const tableRows = document.querySelectorAll('.command-table tr');
+            tableRows.forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.02)';
+                    this.style.transition = 'transform 0.2s ease';
+                });
+                
+                row.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+
+            // Add glitch effect to title on click
+            const title = document.querySelector('.header h1');
+            title.addEventListener('click', function() {
+                this.classList.add('glitch');
+                setTimeout(() => {
+                    this.classList.remove('glitch');
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>
